@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moviesubslk - Premium Sri Lankan Movie Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Premium Cinema Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #09090b;
+            color: #f4f4f5;
+        }
+        .gold-glow:hover {
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+        }
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: #18181b;
+        }
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- Header / Navibhag -->
+    <header class="bg-zinc-950 border-b border-zinc-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="navigate('home')">
+                <!-- Golden Film Reel Icon drawn dynamically -->
+                <div class="relative w-12 h-12 flex items-center justify-center bg-zinc-900 rounded-full border-2 border-[#d4af37]">
+                    <div class="w-8 h-8 rounded-full border-2 border-dashed border-[#d4af37] animate-spin-slow flex items-center justify-center">
+                        <div class="w-2 h-2 bg-[#d4af37] rounded-full"></div>
+                    </div>
+                    <!-- Small "SUBS" badge inside logo area -->
+                    <span class="absolute -bottom-1 -right-2 bg-[#d4af37] text-black text-[9px] font-bold px-1 rounded uppercase">Subs</span>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-wider text-white">MOVIESUBS<span class="text-[#d4af37]">LK</span></h1>
+                    <p class="text-[9px] text-zinc-400 tracking-widest uppercase">Sinhala Subtitles Hub</p>
+                </div>
+            </div>
+
+            <!-- Madhlyasathi Links (Navigation) -->
+            <nav class="hidden md:flex space-x-6 text-sm font-medium">
+                <button onclick="navigate('home')" class="nav-link text-[#d4af37] hover:text-white transition py-2 px-1 border-b-2 border-transparent active-nav" id="nav-home">
+                    <i class="fa-solid fa-house mr-1"></i> Ghar (Home)
+                </button>
+                <button onclick="navigate('upload')" class="nav-link text-zinc-400 hover:text-[#d4af37] transition py-2 px-1 border-b-2 border-transparent" id="nav-upload">
+                    <i class="fa-solid fa-cloud-arrow-up mr-1"></i> Chitrapat Upload
+                </button>
+                <button onclick="navigate('about')" class="nav-link text-zinc-400 hover:text-[#d4af37] transition py-2 px-1 border-b-2 border-transparent" id="nav-about">
+                    <i class="fa-solid fa-circle-info mr-1"></i> Amchya Baddal (About)
+                </button>
+            </nav>
+
+            <!-- उजवीकडील बाजू (Profile/Login state) -->
+            <div class="flex items-center space-x-4">
+                <!-- Search bar in header -->
+                <div class="relative hidden sm:block">
+                    <input type="text" id="headerSearch" onkeyup="handleHeaderSearch(event)" placeholder="Chitrapat shodha..." class="w-48 bg-zinc-900 border border-zinc-700 text-xs text-white rounded-full py-2 px-4 pr-8 focus:outline-none focus:border-[#d4af37] transition-all">
+                    <i class="fa-solid fa-magnifying-glass absolute right-3 top-2.5 text-zinc-500 text-xs"></i>
+                </div>
+
+                <div id="auth-header-area">
+                    <!-- Navigated dynamically in JS -->
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden text-white hover:text-[#d4af37]">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-zinc-950 border-t border-zinc-850 px-4 py-4 space-y-3">
+            <button onclick="navigate('home'); toggleMobileMenu()" class="w-full text-left py-2 px-3 text-zinc-300 hover:bg-zinc-900 hover:text-[#d4af37] rounded flex items-center">
+                <i class="fa-solid fa-house w-6"></i> Ghar (Home)
+            </button>
+            <button onclick="navigate('upload'); toggleMobileMenu()" class="w-full text-left py-2 px-3 text-zinc-300 hover:bg-zinc-900 hover:text-[#d4af37] rounded flex items-center">
+                <i class="fa-solid fa-cloud-arrow-up w-6"></i> Chitrapat Upload
+            </button>
+            <button onclick="navigate('about'); toggleMobileMenu()" class="w-full text-left py-2 px-3 text-zinc-300 hover:bg-zinc-900 hover:text-[#d4af37] rounded flex items-center">
+                <i class="fa-solid fa-circle-info w-6"></i> Amchya Baddal (About)
+            </button>
+            <hr class="border-zinc-800">
+            <div class="pt-2">
+                <input type="text" id="mobileSearch" onkeyup="handleMobileSearch(event)" placeholder="Chitrapat shodha..." class="w-full bg-zinc-900 border border-zinc-700 text-sm text-white rounded py-2 px-3 focus:outline-none focus:border-[#d4af37]">
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area / Mukhya Vibhag -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- SUCCESS/ERROR BANNER MESSAGE -->
+        <div id="toastMessage" class="hidden fixed bottom-5 right-5 z-50 bg-zinc-900 border-l-4 border-[#d4af37] text-white p-4 rounded shadow-2xl flex items-center space-x-3 transition-all duration-350">
+            <i class="fa-solid fa-circle-check text-[#d4af37] text-lg"></i>
+            <span id="toastText" class="text-sm">Yashasvi jhale!</span>
+        </div>
+
+        <!-- PAGE 1: HOME PAGE (GHAR) -->
+        <section id="page-home" class="space-y-10">
+            <!-- Hero Spotlight Banner -->
+            <div class="relative rounded-2xl overflow-hidden bg-gradient-to-r from-black to-zinc-900 border border-zinc-800 p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(212,175,55,0.15),transparent_60%)]"></div>
+                <div class="relative z-10 max-w-xl space-y-4">
+                    <span class="bg-[#d4af37]/10 text-[#d4af37] border border-[#d4af37]/30 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Spotlight Chitrapat</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight">Yashasvi Sinhala & Indian Cinema Subtitles!</h2>
+                    <p class="text-zinc-400 text-sm sm:text-base">Moviesubslk var tumhala milte saglyat jasti and up-to-date Sinhala subtitles, customized movie players ani instant download capabilities saglya chitrapatasathi.</p>
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        <button onclick="playDirectFeatured()" class="bg-[#d4af37] hover:bg-[#b38f2e] text-black font-semibold text-sm px-6 py-3 rounded-lg flex items-center transition gold-glow">
+                            <i class="fa-solid fa-play mr-2"></i> Ata paha (Watch Now)
+                        </button>
+                        <button onclick="navigate('about')" class="bg-zinc-800 hover:bg-zinc-700 text-white font-semibold text-sm px-6 py-3 rounded-lg flex items-center border border-zinc-700 transition">
+                            <i class="fa-solid fa-phone mr-2"></i> Amchyashi Sampark Sada
+                        </button>
+                    </div>
+                </div>
+                <!-- Banner Image Wrapper -->
+                <div class="relative w-full md:w-80 h-48 bg-zinc-950 rounded-xl border border-zinc-800 overflow-hidden flex items-center justify-center shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1025&auto=format&fit=crop" class="w-full h-full object-cover opacity-60" alt="Cinema">
+                    <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent"></div>
+                    <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+                        <span class="text-xs text-[#d4af37] font-semibold"><i class="fa-solid fa-heart mr-1"></i> Lokpriya</span>
+                        <span class="text-[10px] text-zinc-400 bg-zinc-900 px-2 py-0.5 rounded">Sri Lanka Special</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories / Tabs Grid -->
+            <div class="space-y-4">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-zinc-800 pb-4 gap-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-white tracking-wide"><i class="fa-solid fa-film text-[#d4af37] mr-2"></i> Chitrapatanchi Suchi (Playlist)</h3>
+                        <p class="text-xs text-zinc-500">Kshatranusar chitrapat tila kelya gelelya aahet</p>
+                    </div>
+                    <!-- Categories filters -->
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="filterCategory('All')" class="cat-btn px-4 py-2 text-xs font-semibold rounded-lg bg-[#d4af37] text-black border border-[#d4af37] transition" id="cat-All">Sagle (All)</button>
+                        <button onclick="filterCategory('Indian')" class="cat-btn px-4 py-2 text-xs font-semibold rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-800 hover:border-[#d4af37] transition" id="cat-Indian">Indian</button>
+                        <button onclick="filterCategory('Sinhala Dubbed')" class="cat-btn px-4 py-2 text-xs font-semibold rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-800 hover:border-[#d4af37] transition" id="cat-Sinhala Dubbed">Sinhala Dubbed</button>
+                        <button onclick="filterCategory('Sinhala')" class="cat-btn px-4 py-2 text-xs font-semibold rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-800 hover:border-[#d4af37] transition" id="cat-Sinhala">Sinhala</button>
+                        <button onclick="filterCategory('English')" class="cat-btn px-4 py-2 text-xs font-semibold rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-800 hover:border-[#d4af37] transition" id="cat-English">English</button>
+                    </div>
+                </div>
+
+                <!-- Movies Responsive Grid -->
+                <div id="moviesGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pt-2">
+                    <!-- Cards are loaded dynamically from JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 2: FILM PLAYING PAGE (WATCHING) -->
+        <section id="page-film" class="hidden space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Video Player Column -->
+                <div class="lg:col-span-2 space-y-4">
+                    <!-- Player Box -->
+                    <div class="bg-black rounded-2xl border border-zinc-800 overflow-hidden relative shadow-2xl">
+                        <!-- Top status badge -->
+                        <div class="absolute top-4 left-4 z-10 flex items-center space-x-2">
+                            <span class="bg-red-600 text-white text-[10px] font-bold px-2.5 py-1 rounded uppercase tracking-wider animate-pulse">Ata Paha (Watching)</span>
+                            <span id="playerCategoryBadge" class="bg-zinc-900/90 text-[#d4af37] border border-zinc-700 text-[10px] px-2 py-1 rounded">Vibhag</span>
+                        </div>
+
+                        <!-- Subtitle Engine Overlay Box (Simulated Subtitles) -->
+                        <div id="subtitlesOverlay" class="absolute bottom-16 left-1/2 transform -translate-x-1/2 z-20 text-center w-4/5 hidden transition-all duration-200">
+                            <span class="bg-black/85 text-yellow-300 px-4 py-1.5 rounded-lg border border-zinc-700 text-sm sm:text-base font-medium shadow-lg tracking-wide shadow-black/80" id="subtitlesText">
+                                Sinhala Subtitles starting...
+                            </span>
+                        </div>
+
+                        <!-- Embedded Player Container -->
+                        <div class="aspect-video w-full bg-zinc-950 flex items-center justify-center relative">
+                            <!-- Youtube Iframe placeholder -->
+                            <div id="youtubePlayerContainer" class="w-full h-full"></div>
+                            <!-- FB simulated player card -->
+                            <div id="facebookPlayerCard" class="hidden w-full h-full flex flex-col items-center justify-center p-6 text-center bg-zinc-900 border border-zinc-800">
+                                <i class="fa-brands fa-facebook text-blue-500 text-6xl mb-4 animate-bounce"></i>
+                                <h4 class="text-lg font-bold text-white mb-2">Facebook Raw Video Stream</h4>
+                                <p class="text-xs text-zinc-400 mb-6 max-w-sm">Facebook video can only be viewed directly or embedded externally with authorization. Amhi tumhala direct option det ahot.</p>
+                                <a id="fbDirectLink" href="#" target="_blank" class="bg-[#d4af37] hover:bg-[#b38f2e] text-black text-sm font-semibold px-6 py-3 rounded-lg inline-flex items-center transition">
+                                    <i class="fa-solid fa-up-right-from-square mr-2"></i> Watch on Facebook <span class="ml-1 text-[10px] text-zinc-850 bg-white px-1.5 py-0.5 rounded font-bold">Safe</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Subtitles Controls Bar -->
+                        <div class="bg-zinc-950 px-4 py-3 flex flex-wrap items-center justify-between border-t border-zinc-850 gap-2">
+                            <div class="flex items-center space-x-3">
+                                <button onclick="toggleSubtitles()" class="px-3.5 py-2 rounded bg-zinc-900 hover:bg-[#d4af37] hover:text-black text-xs font-semibold text-zinc-300 border border-zinc-800 transition flex items-center gap-1.5" id="btnToggleSubs">
+                                    <i class="fa-solid fa-closed-captioning"></i> <span>Sah-shirshak (Subtitles) chalu kara</span>
+                                </button>
+                                <button onclick="downloadSubtitles()" class="px-3.5 py-2 rounded bg-zinc-900 hover:bg-emerald-600 hover:text-white text-xs font-semibold text-zinc-300 border border-zinc-800 transition flex items-center gap-1.5">
+                                    <i class="fa-solid fa-download"></i> Subtitle Download (.SRT)
+                                </button>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button onclick="addToFavorites()" class="p-2 rounded bg-zinc-900 hover:bg-zinc-800 text-rose-500 border border-zinc-800 transition" title="Add to Favorites">
+                                    <i class="fa-solid fa-heart"></i>
+                                </button>
+                                <button onclick="shareMovie()" class="p-2 rounded bg-zinc-900 hover:bg-zinc-800 text-blue-400 border border-zinc-800 transition" title="Share Link">
+                                    <i class="fa-solid fa-share-nodes"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Details Box -->
+                    <div class="bg-zinc-900/50 p-6 rounded-2xl border border-zinc-800 space-y-4">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <h2 class="text-2xl font-bold text-white" id="playerTitle">Chitrapatache Naav</h2>
+                            <span class="bg-zinc-800 text-zinc-300 text-xs px-2.5 py-1 rounded-full" id="playerTags">#tags</span>
+                        </div>
+                        <p class="text-zinc-400 text-sm leading-relaxed" id="playerDescription">Chitrapatachya baddal mahiti ani varnan ya vibhagata yeil. Subtitles up-to-date aahet.</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-zinc-850">
+                            <div>
+                                <span class="text-xs text-zinc-500 block">Kshatransar</span>
+                                <span class="text-sm font-semibold text-white" id="playerCategory">Indian</span>
+                            </div>
+                            <div>
+                                <span class="text-xs text-zinc-500 block">Subtitles</span>
+                                <span class="text-sm font-semibold text-emerald-400"><i class="fa-solid fa-circle-check"></i> Sinhala Active</span>
+                            </div>
+                            <div>
+                                <span class="text-xs text-zinc-500 block">Platform</span>
+                                <span class="text-sm font-semibold text-white" id="playerPlatform">YouTube</span>
+                            </div>
+                            <div>
+                                <span class="text-xs text-zinc-500 block">Rating</span>
+                                <span class="text-sm font-semibold text-amber-400"><i class="fa-solid fa-star"></i> 4.8/5</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Up Next / Right Playlist bar -->
+                <div class="space-y-4">
+                    <h3 class="text-lg font-bold text-white tracking-wide"><i class="fa-solid fa-forward-list text-[#d4af37] mr-2"></i> Pudhil Chitrapat (Up Next)</h3>
+                    <div id="upNextGrid" class="space-y-4 max-h-[600px] overflow-y-auto pr-1 scrollbar-thin">
+                        <!-- Up next dynamic movies content -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 3: MOVIE UPLOAD PAGE (UPLOAD) -->
+        <section id="page-upload" class="hidden">
+            <div class="max-w-2xl mx-auto bg-zinc-900 border border-zinc-800 rounded-2xl p-6 sm:p-10 space-y-6">
+                <div class="text-center space-y-2">
+                    <div class="w-16 h-16 rounded-full bg-[#d4af37]/10 text-[#d4af37] flex items-center justify-center mx-auto text-2xl border border-[#d4af37]/25">
+                        <i class="fa-solid fa-file-video"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-white">Naveen Chitrapat Upload Kara</h2>
+                    <p class="text-xs text-zinc-400">Sri Lanka community sobat share kara tumche customized subtitled movies.</p>
+                </div>
+
+                <form id="uploadForm" onsubmit="handleMovieUpload(event)" class="space-y-5">
+                    <div>
+                        <label class="block text-xs font-semibold text-zinc-400 mb-1.5 uppercase">Chitrapatache Shirshak (Title) *</label>
+                        <input type="text" id="upTitle" required placeholder="Udaharana sathi: K.G.F Chapter 2 (2022)" class="w-full bg-zinc-950 border border-zinc-800 text-white text-sm rounded-lg py-3 px-4 focus:outline-none focus:border-[#d4af37]">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-zinc-400 mb-1.5 uppercase">Varnan (Description) *</label>
+                        <textarea id="upDescription" rows="3" required placeholder="Chitrapatachya baddal thodkyat mahiti liha..." class="w-full bg-zinc-950 border border-zinc-800 text-white text-sm rounded-lg py-3 px-4 focus:outline-none focus:border-[#d4af37]"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-zinc-400 mb-1.5 uppercase">Video URL (YouTube/Facebook) *</label>
+                            <input type="url" id="upVideoUrl" required placeholder="https://youtu.be/..." class="w-full bg-zinc-950 border border-zinc-800 text-white text-sm rounded-lg py-3 px-4 focus:outline-none focus:border-[#d4af37]">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-zinc-400 mb-1.5 uppercase">Vibhag (Category) *</label>
+                            <select id="upCategory" required class="w-full bg-zinc-950 border border-zinc-800 text-white text-sm rounded-lg py-3 px-4 focus:outline-none focus:border-[#d4af37]">
+                                <option value="Indian">Indian Movies</option>
+                                <option value="Sinhala Dubbed">Sinhala Dubbing Movies</option>
+                                <option value="Sinhala">Sinhala Movies</option>
+                                <option value="English">English Movies</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-zinc-400 mb-1.5 uppercase">Thumbnail (Poster Photo) Link *</label>
+                        <input type="url" id="upThumbnail" required placeholder="https://images.unsplash.com/... kinva Poster Link" class="w-full bg-zinc-950 border border-zinc-800 text-white text-sm rounded-lg py-3 px-4 focus:outline-none focus:border-[#d4af37]">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-zinc-400 mb-1.5 uppercase">Hashtags (#tag)</label>
+                            <input type="text" id="upHashtags" placeholder="#kgf #action #hindi" class="w-full bg-zinc-950 border border-zinc-800 text-white text-sm rounded-lg py-3 px-4 focus:outline-none focus:border-[#d4af37]">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-zinc-400 mb-1.5 uppercase">Tags (Comma ne vibhagani)</label>
+                            <input type="text" id="upTags" placeholder="action, blockbuster, blockbuster" class="w-full bg-zinc-950 border border-zinc-800 text-white text-sm rounded-lg py-3 px-4 focus:outline-none focus:border-[#d4af37]">
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button type="submit" class="w-full bg-[#d4af37] hover:bg-[#b38f2e] text-black font-semibold text-sm py-3 rounded-lg transition-all duration-200 shadow-lg gold-glow">
+                            <i class="fa-solid fa-cloud-arrow-up mr-1"></i> Upload Kara
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- PAGE 4: ABOUT PAGE (AMCHYA BADDAL) -->
+        <section id="page-about" class="hidden space-y-12">
+            <!-- About intro -->
+            <div class="text-center space-y-3 max-w-2xl mx-auto">
+                <span class="text-[#d4af37] font-semibold tracking-wider text-xs uppercase bg-[#d4af37]/10 px-3.5 py-1.5 rounded-full">Moviesubslk</span>
+                <h2 class="text-3xl font-extrabold text-white">Prashasit Sri Lankan Cinema Subtitle Platform</h2>
+                <p class="text-zinc-400 text-sm">Amhi tumhala sglyat surakshit ani vegwan margane Sinhala subtitled movies purvto. Amchya sathi khali dilya social networks var join vha.</p>
+            </div>
+
+            <!-- Social Links Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                <!-- Facebook Card -->
+                <a href="https://www.facebook.com/share/1AwNksSTAH/" target="_blank" class="bg-zinc-900 border border-zinc-800 rounded-xl p-5 hover:border-blue-500 transition-all flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-lg bg-blue-600/10 text-blue-500 flex items-center justify-center text-xl">
+                        <i class="fa-brands fa-facebook"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-white">Facebook Page</h4>
+                        <span class="text-[11px] text-zinc-500">Moviesubslk Page</span>
+                    </div>
+                </a>
+
+                <!-- Youtube 1 Card -->
+                <a href="https://www.youtube.com/@Moviesubslk" target="_blank" class="bg-zinc-900 border border-zinc-800 rounded-xl p-5 hover:border-red-600 transition-all flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-lg bg-red-600/10 text-red-500 flex items-center justify-center text-xl">
+                        <i class="fa-brands fa-youtube"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-white">Main YouTube</h4>
+                        <span class="text-[11px] text-zinc-500">@Moviesubslk</span>
+                    </div>
+                </a>
+
+                <!-- Youtube 2 Card -->
+                <a href="https://youtube.com/@Moviesubslk2.0" target="_blank" class="bg-zinc-900 border border-zinc-800 rounded-xl p-5 hover:border-red-600 transition-all flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-lg bg-red-600/10 text-red-500 flex items-center justify-center text-xl">
+                        <i class="fa-brands fa-youtube"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-white">YouTube 2.0</h4>
+                        <span class="text-[11px] text-zinc-500">Backup Channel</span>
+                    </div>
+                </a>
+
+                <!-- Youtube 3 Card -->
+                <a href="https://www.youtube.com/@Moviesubslk3.0" target="_blank" class="bg-zinc-900 border border-zinc-800 rounded-xl p-5 hover:border-red-600 transition-all flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-lg bg-red-600/10 text-red-500 flex items-center justify-center text-xl">
+                        <i class="fa-brands fa-youtube"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-white">YouTube 3.0</h4>
+                        <span class="text-[11px] text-zinc-500">Extra Backup Channel</span>
+                    </div>
+                </a>
+
+                <!-- WhatsApp Channel Card -->
+                <a href="https://whatsapp.com/channel/0029VajNJb53QxS25hzP7Y09" target="_blank" class="bg-zinc-900 border border-zinc-800 rounded-xl p-5 hover:border-emerald-500 transition-all flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-lg bg-emerald-600/10 text-emerald-500 flex items-center justify-center text-xl">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-white">WhatsApp Updates</h4>
+                        <span class="text-[11px] text-zinc-500">Sari lanka update channel</span>
+                    </div>
+                </a>
+
+                <!-- Telegram Card -->
+                <a href="https://t.me/moviesubslk2" target="_blank" class="bg-zinc-900 border border-zinc-800 rounded-xl p-5 hover:border-sky-500 transition-all flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-lg bg-sky-600/10 text-sky-400 flex items-center justify-center text-xl">
+                        <i class="fa-brands fa-telegram"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-white">Telegram Channel</h4>
+                        <span class="text-[11px] text-zinc-500">Join our group</span>
+                    </div>
+                </a>
+
+                <!-- Instagram Card -->
+                <a href="https://www.instagram.com/trendingteledramafilm?igsh=MTZibjZqcGRyYWxodQ==" target="_blank" class="bg-zinc-900 border border-zinc-800 rounded-xl p-5 hover:border-pink-500 transition-all flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-lg bg-pink-600/10 text-pink-500 flex items-center justify-center text-xl">
+                        <i class="fa-brands fa-instagram"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-white">Instagram Portal</h4>
+                        <span class="text-[11px] text-zinc-500">Trending Teledramas</span>
+                    </div>
+                </a>
+
+                <!-- TikTok Card -->
+                <a href="https://www.tiktok.com/@moviesubs.lk" target="_blank" class="bg-zinc-900 border border-zinc-800 rounded-xl p-5 hover:border-zinc-300 transition-all flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-lg bg-zinc-600/10 text-zinc-300 flex items-center justify-center text-xl">
+                        <i class="fa-brands fa-tiktok"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-white">TikTok Short</h4>
+                        <span class="text-[11px] text-zinc-500">@moviesubs.lk</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Contact Box -->
+            <div class="max-w-xl mx-auto bg-zinc-900 border border-zinc-800 rounded-2xl p-6 sm:p-8 space-y-4 text-center">
+                <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-headset text-[#d4af37] mr-1.5"></i> SAMPARK NO. / DIRECT CALL</h3>
+                <p class="text-xs text-zinc-400">Kaslihi samasya kinva adchan aslyas thodech call kara amhala WhatsApp var pan available aahe.</p>
+                <div class="inline-flex items-center space-x-3 bg-zinc-950 px-5 py-3 rounded-lg border border-zinc-800 font-mono text-lg text-[#d4af37]">
+                    <i class="fa-brands fa-whatsapp text-emerald-500 text-xl"></i>
+                    <a href="https://wa.me/94759993394" target="_blank" class="hover:underline font-bold tracking-wider">+94 75 999 3394</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 5: USER PROFILE PAGE (PROFILE) -->
+        <section id="page-profile" class="hidden space-y-8">
+            <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 sm:p-10 flex flex-col md:flex-row items-center md:items-start gap-8">
+                <!-- User Avatar / Info -->
+                <div class="relative w-28 h-28 bg-gradient-to-tr from-[#d4af37] to-amber-200 rounded-full flex items-center justify-center shadow-xl">
+                    <span id="profileLetter" class="text-4xl font-extrabold text-black">U</span>
+                    <button class="absolute bottom-0 right-0 bg-zinc-950 border border-zinc-800 text-[#d4af37] w-8 h-8 rounded-full flex items-center justify-center hover:bg-zinc-900 transition shadow-md">
+                        <i class="fa-solid fa-pen text-xs"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-4 flex-grow text-center md:text-left">
+                    <div>
+                        <h2 id="profileName" class="text-2xl font-bold text-white">User Name</h2>
+                        <p id="profileEmail" class="text-xs text-zinc-500">user@example.com</p>
+                    </div>
+                    <div class="flex flex-wrap items-center justify-center md:justify-start gap-3 text-xs">
+                        <span class="bg-zinc-800 px-3 py-1 rounded-full text-zinc-300 border border-zinc-750">Membership: Premium User</span>
+                        <span class="bg-[#d4af37]/10 px-3 py-1 rounded-full text-[#d4af37] border border-[#d4af37]/20">Points: 480 XP</span>
+                    </div>
+                    <div class="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-3">
+                        <button onclick="logoutUser()" class="bg-zinc-950 border border-zinc-800 text-red-500 hover:bg-red-500/10 font-semibold text-xs px-4 py-2.5 rounded-lg transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-power-off"></i> Logout / Log Out vha
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Saved Favorites / Watch History Grid -->
+            <div class="space-y-4">
+                <h3 class="text-lg font-bold text-white tracking-wide"><i class="fa-solid fa-heart text-[#d4af37] mr-1.5"></i> Majhe Avadte Chitrapat (My Favorites)</h3>
+                <div id="favoritesGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pt-2">
+                    <!-- Cards are loaded dynamically from JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 6: AUTHENTICATION MODAL SYSTEM (LOGIN/SIGNUP) -->
+        <section id="page-auth" class="hidden">
+            <div class="max-w-md mx-auto bg-zinc-900 border border-zinc-800 rounded-2xl p-6 sm:p-10 space-y-6">
+                <!-- Tabs to switch login/signup -->
+                <div class="flex border-b border-zinc-800">
+                    <button onclick="setAuthTab('login')" id="auth-tab-login" class="flex-1 text-center pb-3 text-sm font-bold border-b-2 border-[#d4af37] text-[#d4af37] transition">Pravesh Kara (Login)</button>
+                    <button onclick="setAuthTab('signup')" id="auth-tab-signup" class="flex-1 text-center pb-3 text-sm font-bold border-b-2 border-transparent text-zinc-400 hover:text-white transition">Sign Up</button>
+                </div>
+
+                <!-- LOGIN FORM -->
+                <form id="loginForm" onsubmit="handleLoginSubmit(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-zinc-400 mb-1.5 uppercase">E-mail Purn *</label>
+                        <input type="email" id="loginEmail" required placeholder="example@email.com" class="w-full bg-zinc-950 border border-zinc-800 text-white text-sm rounded-lg py-3 px-4 focus:outline-none focus:border-[#d4af37]">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-zinc-400 mb-1.5 uppercase">Password *</label>
+                        <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full bg-zinc-950 border border-zinc-800 text-white text-sm rounded-lg py-3 px-4 focus:outline-none focus:border-[#d4af37]">
+                    </div>
+                    <button type="submit" class="w-full bg-[#d4af37] hover:bg-[#b38f2e] text-black font-semibold text-sm py-3 rounded-lg transition gold-glow">
+                        <i class="fa-solid fa-arrow-right-to-bracket mr-1"></i> Sign-In
+                    </button>
+                </form>
+
+                <!-- SIGNUP FORM -->
+                <form id="signupForm" onsubmit="handleSignupSubmit(event)" class="space-y-4 hidden">
+                    <div>
+                        <label class="block text-xs font-semibold text-zinc-400 mb-1.5 uppercase">Tumche Naav *</label>
+                        <input type="text" id="signUpName" required placeholder="Udaharana sathi: Ruwan Siri" class="w-full bg-zinc-950 border border-zinc-800 text-white text-sm rounded-lg py-3 px-4 focus:outline-none focus:border-[#d4af37]">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-zinc-400 mb-1.5 uppercase">E-mail *</label>
+                        <input type="email" id="signUpEmail" required placeholder="example@email.com" class="w-full bg-zinc-950 border border-zinc-800 text-white text-sm rounded-lg py-3 px-4 focus:outline-none focus:border-[#d4af37]">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-zinc-400 mb-1.5 uppercase">Password *</label>
+                        <input type="password" id="signUpPassword" required placeholder="••••••••" class="w-full bg-zinc-950 border border-zinc-800 text-white text-sm rounded-lg py-3 px-4 focus:outline-none focus:border-[#d4af37]">
+                    </div>
+                    <button type="submit" class="w-full bg-[#d4af37] hover:bg-[#b38f2e] text-black font-semibold text-sm py-3 rounded-lg transition gold-glow">
+                        <i class="fa-solid fa-user-plus mr-1"></i> Register Kara
+                    </button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer / Paadbhag -->
+    <footer class="bg-zinc-950 border-t border-zinc-900 py-12 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="space-y-4 col-span-1 md:col-span-2">
+                <div class="flex items-center space-x-3">
+                    <div class="relative w-10 h-10 flex items-center justify-center bg-zinc-900 rounded-full border border-[#d4af37]">
+                        <span class="text-[#d4af37] font-extrabold text-sm">SL</span>
+                    </div>
+                    <span class="text-lg font-bold text-white tracking-wider">MOVIESUBS<span class="text-[#d4af37]">LK</span></span>
+                </div>
+                <p class="text-xs text-zinc-400 max-w-sm leading-relaxed">Sri Lanka cha number 1 hub jitho tumhala milte direct subtitles and multiple options chitrapat watching sathi. Sagle embedded video standard copyright protocols follow krtat.</p>
+                <div class="flex items-center space-x-3 text-zinc-500 pt-2">
+                    <a href="https://www.facebook.com/share/1AwNksSTAH/" target="_blank" class="hover:text-white transition"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://www.youtube.com/@Moviesubslk" target="_blank" class="hover:text-white transition"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://whatsapp.com/channel/0029VajNJb53QxS25hzP7Y09" target="_blank" class="hover:text-white transition"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://t.me/moviesubslk2" target="_blank" class="hover:text-white transition"><i class="fa-brands fa-telegram"></i></a>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <h4 class="text-xs font-bold text-[#d4af37] uppercase tracking-wider">Categories (Shreni)</h4>
+                <ul class="space-y-1 text-xs text-zinc-400">
+                    <li><button onclick="navigate('home'); filterCategory('Indian')" class="hover:text-white">Indian Movies</button></li>
+                    <li><button onclick="navigate('home'); filterCategory('Sinhala Dubbed')" class="hover:text-white">Sinhala Dubbed</button></li>
+                    <li><button onclick="navigate('home'); filterCategory('Sinhala')" class="hover:text-white">Sinhala Movies</button></li>
+                    <li><button onclick="navigate('home'); filterCategory('English')" class="hover:text-white">English Movies</button></li>
+                </ul>
+            </div>
+
+            <div class="space-y-3">
+                <h4 class="text-xs font-bold text-[#d4af37] uppercase tracking-wider">Direct Connect</h4>
+                <div class="space-y-2 text-xs">
+                    <p class="text-zinc-400 flex items-center"><i class="fa-solid fa-headset mr-2 text-zinc-500"></i> +94 75 999 3394</p>
+                    <p class="text-zinc-400 flex items-center"><i class="fa-solid fa-envelope mr-2 text-zinc-500"></i> support@moviesubslk.com</p>
+                    <p class="text-zinc-400">Sri Lanka (Ceylon)</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-6 border-t border-zinc-900/60 flex flex-col sm:flex-row justify-between text-[11px] text-zinc-500">
+            <p>© 2026 Moviesubslk. Sagle Adhikar Rakshit (All rights reserved).</p>
+            <p>Made with ❤️ for Sri Lankan Film Lovers.</p>
+        </div>
+    </footer>
+
+    <!-- Main JS Application Logic -->
+    <script>
+        // Data structure initialization
+        // Sagle direct links are systematically arranged below
+        const initialMovies = [
+            // Indian Movies
+            { id: "ind1", title: "Indian Special Action", category: "Indian", type: "youtube", videoId: "v7S24xCIGNk", url: "https://youtu.be/v7S24xCIGNk?si=KZurO75zT3SOI8t6", thumbnail: "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=1000&auto=format&fit=crop", desc: "Premium Indian action drama in absolute dynamic quality with fully verified Sinhala subtitles.", tags: "#indian #action #blockbuster", rating: 4.9 },
+            { id: "ind2", title: "Cinema Special Blockbuster", category: "Indian", type: "youtube", videoId: "oG4JpXbAswM", url: "https://youtu.be/oG4JpXbAswM?si=ZuUXp_zCiIARoa8d", thumbnail: "https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?q=80&w=1000&auto=format&fit=crop", desc: "Top quality theatrical masterpiece showing incredible human survival and dynamic cinematic angles.", tags: "#survival #cinema #thriller", rating: 4.7 },
+            { id: "ind3", title: "Ultimate Cinematic Voyage", category: "Indian", type: "youtube", videoId: "fTKzjiyAtfw", url: "https://youtu.be/fTKzjiyAtfw?si=Z047iVWfTIL9YYNG", thumbnail: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1000&auto=format&fit=crop", desc: "A thrilling adventure across beautiful backdrops that keeps you strictly at the edge of your seat.", tags: "#adventure #thrill #indian", rating: 4.8 },
+            { id: "ind4", title: "The Dramatic Pursuit", category: "Indian", type: "youtube", videoId: "LGSSv9qYQ2o", url: "https://youtu.be/LGSSv9qYQ2o?si=mvilhtEf-C-vVl9A", thumbnail: "https://images.unsplash.com/photo-1542204172-e70528091b50?q=80&w=1000&auto=format&fit=crop", desc: "An emotional journey that tests family ties, duty, and national pride with Sinhala sub integration.", tags: "#drama #family #national", rating: 4.5 },
+            { id: "ind5", title: "Mystery of the Forgotten Kingdom", category: "Indian", type: "youtube", videoId: "dz1KtSObenA", url: "https://youtu.be/dz1KtSObenA?si=ZXVG48dlLw5viSzt", thumbnail: "https://images.unsplash.com/photo-1518063319789-7217e6706b04?q=80&w=1000&auto=format&fit=crop", desc: "Explore the ancient secrets of a kingdom lost in time. Exceptional visual effects and graphics.", tags: "#mystery #ancient #fantasy", rating: 4.6 },
+            { id: "ind6", title: "Shadow of the City", category: "Indian", type: "youtube", videoId: "ViY4UFLOoIA", url: "https://youtu.be/ViY4UFLOoIA?si=bATRQADPkvhNv3ba", thumbnail: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=1000&auto=format&fit=crop", desc: "Gritty urban thriller that explores crime, corruption, and redemption in the heart of metropolitan India.", tags: "#crime #thriller #urban", rating: 4.9 },
+            { id: "ind7", title: "Romance & Beats", category: "Indian", type: "youtube", videoId: "1wnZo-d8a8w", url: "https://youtu.be/1wnZo-d8a8w?si=9IXsQeSgilZo8azt", thumbnail: "https://images.unsplash.com/photo-1515462277126-270d878326e5?q=80&w=1000&auto=format&fit=crop", desc: "Musical drama celebrating young love, dreams, and beautiful classical rhythm arrangements.", tags: "#romance #musical #love", rating: 4.4 },
+
+            // Sinhala Dubbed Movies
+            { id: "dub1", title: "Sinhala Dubbed Superhits Part 1", category: "Sinhala Dubbed", type: "youtube", videoId: "EGLwKGNkijk", url: "https://youtu.be/EGLwKGNkijk", thumbnail: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?q=80&w=1000&auto=format&fit=crop", desc: "Sinhala dubbed action adventure showing stunning battles and outstanding Sri Lankan voiceovers.", tags: "#dubbed #action #sinhala", rating: 4.8 },
+            { id: "dub2", title: "Sinhala Dubbed Mega Hit Movie", category: "Sinhala Dubbed", type: "youtube", videoId: "YTFkb6bn7CE", url: "https://youtu.be/YTFkb6bn7CE", thumbnail: "https://images.unsplash.com/photo-1535016120720-40c646be5580?q=80&w=1000&auto=format&fit=crop", desc: "Family oriented classic animated masterwork with hilarious Sinhala jokes and localized dialogue structures.", tags: "#animation #comedy #dubbed", rating: 4.7 },
+            { id: "dub3", title: "Sinhala Dubbed Sci-Fi Thriller", category: "Sinhala Dubbed", type: "youtube", videoId: "ME6jgA28n3w", url: "https://youtu.be/ME6jgA28n3w", thumbnail: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1000&auto=format&fit=crop", desc: "Mind-bending futuristic tech thriller translated specifically with amazing attention to subtitle accuracy.", tags: "#scifi #future #thrill", rating: 4.9 },
+            { id: "dub4", title: "Sinhala Dubbed Epic War Legend", category: "Sinhala Dubbed", type: "youtube", videoId: "x4Bme-mW80I", url: "https://youtu.be/x4Bme-mW80I", thumbnail: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=1000&auto=format&fit=crop", desc: "Historic masterpiece showing massive battles, ancient strategy, and legendary warriors.", tags: "#history #war #epic", rating: 4.5 },
+            { id: "dub5", title: "Sinhala Dubbed Speed Pursuit", category: "Sinhala Dubbed", type: "youtube", videoId: "hFo7XFbJRhQ", url: "https://youtu.be/hFo7XFbJRhQ", thumbnail: "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=1000&auto=format&fit=crop", desc: "Fast cars, intense racing, and illegal street drifting with thrilling local voices.", tags: "#racing #speed #cars", rating: 4.3 },
+            { id: "dub6", title: "Sinhala Dubbed Fantasy Woods", category: "Sinhala Dubbed", type: "youtube", videoId: "yUe7Dv48xOg", url: "https://youtu.be/yUe7Dv48xOg", thumbnail: "https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1000&auto=format&fit=crop", desc: "Magical adventure set in a dense enchanted forest full of talking mythical creatures.", tags: "#magic #fantasy #dubbed", rating: 4.6 },
+            { id: "dub7", title: "Sinhala Dubbed Ghost Hunter", category: "Sinhala Dubbed", type: "youtube", videoId: "9zNrWD9YgeQ", url: "https://youtu.be/9zNrWD9YgeQ", thumbnail: "https://images.unsplash.com/photo-1505635552518-3448ff116af3?q=80&w=1000&auto=format&fit=crop", desc: "Scary supernatural mystery thriller with brilliant horror sound design and voice cast.", tags: "#horror #ghost #paranormal", rating: 4.7 },
+            { id: "dub8", title: "Sinhala Dubbed Mystery Box", category: "Sinhala Dubbed", type: "youtube", videoId: "073HNTtTIAU", url: "https://youtu.be/073HNTtTIAU", thumbnail: "https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=1000&auto=format&fit=crop", desc: "A thrilling heist where elite thieves attempt to steal a protected artifact.", tags: "#heist #crime #mystery", rating: 4.8 },
+
+            // Facebook Sinhala Dubbed links simulated
+            { id: "fbdub1", title: "FB special Sinhala Dubbed Vol 1", category: "Sinhala Dubbed", type: "facebook", url: "https://www.facebook.com/share/v/18dNT5uEgD/", thumbnail: "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=1000&auto=format&fit=crop", desc: "Popular short series dubbed beautifully and uploaded directly onto our Facebook feeds.", tags: "#facebook #viral #dubbed", rating: 4.4 },
+            { id: "fbdub2", title: "FB Special Sinhala Dubbed Vol 2", category: "Sinhala Dubbed", type: "facebook", url: "https://www.facebook.com/share/v/1bSnRhKE5S/", thumbnail: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=1000&auto=format&fit=crop", desc: "Superb comical animations with localized Sri Lankan voice acting elements.", tags: "#comedy #animations #viral", rating: 4.2 },
+
+            // Sinhala Movies
+            { id: "sin1", title: "Lankan Cinema Classic Reel", category: "Sinhala", type: "facebook", url: "https://www.facebook.com/share/v/18fYbEiG2t/", thumbnail: "https://images.unsplash.com/photo-1460881680858-30d872d5b530?q=80&w=1000&auto=format&fit=crop", desc: "Exclusive local Sri Lankan production capturing rural lifestyles and classic family structure.", tags: "#classic #lankan #sinhalamovie", rating: 4.9 },
+            { id: "sin2", title: "Teledrama Special Classic", category: "Sinhala", type: "facebook", url: "https://www.facebook.com/share/v/17JPoydkku/", thumbnail: "https://images.unsplash.com/photo-1585647347483-22b66260dfff?q=80&w=1000&auto=format&fit=crop", desc: "Highly emotional dramatic television sequence containing premium Lankan actors and actresses.", tags: "#teledrama #emotional #lanka", rating: 4.6 },
+            { id: "sin3", title: "New Generation Sri Lankan Film", category: "Sinhala", type: "facebook", url: "https://www.facebook.com/share/v/1ChKYA5PSj/", thumbnail: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?q=80&w=1000&auto=format&fit=crop", desc: "Explores the lifestyle of Colombo youth, highlighting relationships, dreams, and challenges.", tags: "#colombo #youth #modern", rating: 4.5 },
+            { id: "sin4", title: "Lankan Action Reel Hit", category: "Sinhala", type: "facebook", url: "https://www.facebook.com/share/v/1D4GmdsDph/", thumbnail: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=1000&auto=format&fit=crop", desc: "High octane action sequences recorded locally in Sri Lanka. Exceptional stunts and music score.", tags: "#action #stunt #lanka", rating: 4.8 },
+
+            // English Movies
+            { id: "eng1", title: "Hollywood Premium Voyage", category: "English", type: "youtube", videoId: "2Q-woSPCKpk", url: "https://youtu.be/2Q-woSPCKpk?si=HYAO_pGKqipcgYMV", thumbnail: "https://images.unsplash.com/photo-1513106580091-1d82408b8cd6?q=80&w=1000&auto=format&fit=crop", desc: "A phenomenal cinematic voyage featuring deep character designs, mind-blowing scores, and custom subs.", tags: "#hollywood #sci-fi #adventure", rating: 4.9 },
+            { id: "eng2", title: "The Dark Knight Pursuit", category: "English", type: "youtube", videoId: "tzPKE0O9g_8", url: "https://youtu.be/tzPKE0O9g_8?si=5KEB4QvPvX2DmSiE", thumbnail: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=1000&auto=format&fit=crop", desc: "Intense hero drama and thriller showcasing deep emotional struggles in high definition display quality.", tags: "#thriller #superhero #blockbuster", rating: 5.0 },
+            { id: "eng3", title: "Deep space Odyssey", category: "English", type: "youtube", videoId: "VWDR1O6qVu8", url: "https://youtu.be/VWDR1O6qVu8?si=6UjTBYZ0lCxgNsYy", thumbnail: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=1000&auto=format&fit=crop", desc: "A fascinating astronomical experience that pushes humanity beyond its limits to discover a new home.", tags: "#space #sci-fi #odyssey", rating: 4.8 },
+            { id: "eng4", title: "Cybernetic Warfare", category: "English", type: "youtube", videoId: "tP8lv69o8Tw", url: "https://youtu.be/tP8lv69o8Tw?si=Sb3nRv0x0r4FAqw5", thumbnail: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1000&auto=format&fit=crop", desc: "Robotic AI constructs rebel against humanity in this high budget science fiction adventure.", tags: "#robots #ai #apocalypse", rating: 4.7 }
+        ];
+
+        // Simulated Subtitle data that renders depending on playback elapsed time
+        const simulatedSubtitles = [
+            "Sri Lankan fans sathi vishesh bhet [00:01]",
+            "Moviesubslk sadar karit aahe vishesh chitrapat [00:04]",
+            "Sinhala subtitles are fully activated and running smoothly [00:08]",
+            "Ha mukhya nayak aahe, to aata aple sahas dakhvel [00:12]",
+            "Krupaya amche official Telegram channel join kara [00:16]",
+            "Adchani sathi chat window vapra [00:20]",
+            "Stay tuned for the grand action scene arriving shortly! [00:24]",
+            "Moviesubslk sathi tumhi navin subtitle updaters banu shakta [00:28]",
+            "Keep enjoying high quality stream [00:32]"
+        ];
+
+        // State variables
+        let currentMovies = [...initialMovies];
+        let currentCategory = "All";
+        let activePage = "home";
+        let loggedInUser = null;
+        let subtitlesActive = false;
+        let activeMovie = initialMovies[0];
+        let subtitleInterval = null;
+        let favorites = [];
+
+        // App Initialization
+        window.onload = function() {
+            // Load custom local storage state if exists
+            const storedMovies = localStorage.getItem("moviesubslk_movies");
+            if (storedMovies) {
+                currentMovies = JSON.parse(storedMovies);
+            } else {
+                localStorage.setItem("moviesubslk_movies", JSON.stringify(initialMovies));
+            }
+
+            // Load favorites
+            const storedFavs = localStorage.getItem("moviesubslk_favs");
+            if (storedFavs) {
+                favorites = JSON.parse(storedFavs);
+            }
+
+            // Check for user session
+            const session = localStorage.getItem("moviesubslk_session");
+            if (session) {
+                loggedInUser = JSON.parse(session);
+            }
+
+            updateAuthHeader();
+            renderMovies();
+            showPage('home');
+        };
+
+        // Show/Hide Pages Routing System
+        function navigate(pageId) {
+            activePage = pageId;
+            showPage(pageId);
+
+            // Update Active Tab Styles in Header
+            document.querySelectorAll('.nav-link').forEach(btn => {
+                btn.classList.remove('text-[#d4af37]', 'active-nav');
+                btn.classList.add('text-zinc-400');
+            });
+
+            const activeBtn = document.getElementById(`nav-${pageId}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-zinc-400');
+                activeBtn.classList.add('text-[#d4af37]', 'active-nav');
+            }
+
+            // Reset video subtitles if switching page
+            clearInterval(subtitleInterval);
+            document.getElementById('subtitlesOverlay').classList.add('hidden');
+            subtitlesActive = false;
+            const subsBtn = document.getElementById('btnToggleSubs');
+            if (subsBtn) {
+                subsBtn.innerHTML = `<i class="fa-solid fa-closed-captioning"></i> <span>Sah-shirshak (Subtitles) chalu kara</span>`;
+                subsBtn.className = "px-3.5 py-2 rounded bg-zinc-900 hover:bg-[#d4af37] hover:text-black text-xs font-semibold text-zinc-300 border border-zinc-800 transition flex items-center gap-1.5";
+            }
+        }
+
+        function showPage(pageId) {
+            // Hide all pages
+            document.getElementById('page-home').classList.add('hidden');
+            document.getElementById('page-film').classList.add('hidden');
+            document.getElementById('page-upload').classList.add('hidden');
+            document.getElementById('page-about').classList.add('hidden');
+            document.getElementById('page-profile').classList.add('hidden');
+            document.getElementById('page-auth').classList.add('hidden');
+
+            // Show selected page
+            const pageNode = document.getElementById(`page-${pageId}`);
+            if (pageNode) {
+                pageNode.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            if (pageId === 'profile') {
+                renderProfilePage();
+            }
+        }
+
+        // Search Handling
+        function handleHeaderSearch(e) {
+            const query = e.target.value.toLowerCase();
+            performSearch(query);
+        }
+
+        function handleMobileSearch(e) {
+            const query = e.target.value.toLowerCase();
+            performSearch(query);
+        }
+
+        function performSearch(query) {
+            if (activePage !== 'home') {
+                navigate('home');
+            }
+            if (query.trim() === '') {
+                currentMovies = [...JSON.parse(localStorage.getItem("moviesubslk_movies") || "[]")];
+            } else {
+                const all = JSON.parse(localStorage.getItem("moviesubslk_movies") || "[]");
+                currentMovies = all.filter(m => 
+                    m.title.toLowerCase().includes(query) || 
+                    m.desc.toLowerCase().includes(query) ||
+                    m.category.toLowerCase().includes(query) ||
+                    m.tags.toLowerCase().includes(query)
+                );
+            }
+            renderMovies();
+        }
+
+        // Render movies on Home Grid
+        function renderMovies() {
+            const grid = document.getElementById('moviesGrid');
+            grid.innerHTML = '';
+
+            let filtered = currentMovies;
+            if (currentCategory !== 'All') {
+                filtered = currentMovies.filter(m => m.category === currentCategory);
+            }
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-12 text-center text-zinc-500">
+                        <i class="fa-solid fa-triangle-exclamation text-4xl mb-3 text-[#d4af37]"></i>
+                        <p class="text-sm">Chitrapat sapadle nahit. Krupaya naveen search kara.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(movie => {
+                const isFavorite = favorites.some(fav => fav.id === movie.id);
+                const favColorClass = isFavorite ? 'text-rose-500' : 'text-zinc-400 hover:text-rose-500';
+
+                const card = document.createElement('div');
+                card.className = "bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden group hover:border-[#d4af37] transition duration-300 flex flex-col justify-between";
+                card.innerHTML = `
+                    <div class="relative aspect-[16/10] overflow-hidden bg-black cursor-pointer" onclick="openMovie('${movie.id}')">
+                        <img src="${movie.thumbnail}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-80 group-hover:opacity-100" alt="${movie.title}" onerror="this.src='https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1000&auto=format&fit=crop'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-60"></div>
+                        <span class="absolute bottom-3 left-3 bg-[#d4af37] text-black text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">${movie.category}</span>
+                        <div class="absolute top-3 right-3 bg-zinc-950/80 p-1.5 rounded-full text-xs text-[#d4af37]">
+                            <i class="fa-solid fa-star text-amber-400"></i> ${movie.rating || '4.8'}
+                        </div>
+                    </div>
+                    <div class="p-4 flex-grow flex flex-col justify-between space-y-3">
+                        <div onclick="openMovie('${movie.id}')" class="cursor-pointer space-y-1">
+                            <h4 class="text-sm font-bold text-white group-hover:text-[#d4af37] transition line-clamp-1">${movie.title}</h4>
+                            <p class="text-xs text-zinc-400 line-clamp-2">${movie.desc}</p>
+                        </div>
+                        <div class="flex items-center justify-between text-xs pt-2 border-t border-zinc-800">
+                            <span class="text-[10px] font-mono text-[#d4af37]">${movie.tags}</span>
+                            <div class="flex items-center space-x-2">
+                                <button onclick="toggleFavoriteInline(event, '${movie.id}')" class="${favColorClass} transition">
+                                    <i class="fa-solid fa-heart text-sm"></i>
+                                </button>
+                                <button onclick="openMovie('${movie.id}')" class="text-zinc-400 hover:text-white transition">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Toggle category tabs
+        function filterCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.className = "cat-btn px-4 py-2 text-xs font-semibold rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-800 hover:border-[#d4af37] transition";
+            });
+
+            const activeBtn = document.getElementById(`cat-${cat}`);
+            if (activeBtn) {
+                activeBtn.className = "cat-btn px-4 py-2 text-xs font-semibold rounded-lg bg-[#d4af37] text-black border border-[#d4af37] transition";
+            }
+
+            renderMovies();
+        }
+
+        // Spotlight banner button direct playing
+        function playDirectFeatured() {
+            if (currentMovies.length > 0) {
+                openMovie(currentMovies[0].id);
+            }
+        }
+
+        // Open Movie Detail / Watching Page
+        function openMovie(movieId) {
+            const all = JSON.parse(localStorage.getItem("moviesubslk_movies") || "[]");
+            const movie = all.find(m => m.id === movieId);
+            if (!movie) return;
+
+            activeMovie = movie;
+            navigate('film');
+
+            document.getElementById('playerTitle').innerText = movie.title;
+            document.getElementById('playerDescription').innerText = movie.desc;
+            document.getElementById('playerTags').innerText = movie.tags || '#movie';
+            document.getElementById('playerCategory').innerText = movie.category;
+            document.getElementById('playerCategoryBadge').innerText = movie.category;
+            document.getElementById('playerPlatform').innerText = movie.type === 'youtube' ? 'YouTube HD' : 'Facebook Video';
+
+            // Configure Player views
+            const ytContainer = document.getElementById('youtubePlayerContainer');
+            const fbCard = document.getElementById('facebookPlayerCard');
+
+            if (movie.type === 'youtube') {
+                fbCard.classList.add('hidden');
+                ytContainer.classList.remove('hidden');
+                // Embed clean YouTube frame
+                ytContainer.innerHTML = `
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/${movie.videoId || '2Q-woSPCKpk'}?autoplay=1&rel=0" title="${movie.title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                `;
+            } else {
+                ytContainer.classList.add('hidden');
+                fbCard.classList.remove('hidden');
+                document.getElementById('fbDirectLink').href = movie.url;
+            }
+
+            // Render Up Next
+            renderUpNext(movie.id);
+        }
+
+        // Render Up Next Playlist on Right side bar
+        function renderUpNext(currentId) {
+            const container = document.getElementById('upNextGrid');
+            container.innerHTML = '';
+
+            const all = JSON.parse(localStorage.getItem("moviesubslk_movies") || "[]");
+            const filtered = all.filter(m => m.id !== currentId).slice(0, 6);
+
+            filtered.forEach(movie => {
+                const item = document.createElement('div');
+                item.className = "flex space-x-3 bg-zinc-900/60 p-2 rounded-xl border border-zinc-850 hover:border-[#d4af37] transition cursor-pointer";
+                item.onclick = function() { openMovie(movie.id); };
+                item.innerHTML = `
+                    <div class="relative w-24 h-16 bg-black rounded-lg overflow-hidden flex-shrink-0">
+                        <img src="${movie.thumbnail}" class="w-full h-full object-cover opacity-85" alt="${movie.title}">
+                    </div>
+                    <div class="flex-grow space-y-1">
+                        <h4 class="text-xs font-semibold text-white line-clamp-1">${movie.title}</h4>
+                        <span class="text-[10px] text-zinc-500 bg-zinc-950 px-1.5 py-0.5 rounded inline-block">${movie.category}</span>
+                        <div class="text-[9px] text-amber-500"><i class="fa-solid fa-star"></i> ${movie.rating || '4.8'}</div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // Simulated Live Subtitles Toggle
+        function toggleSubtitles() {
+            const overlay = document.getElementById('subtitlesOverlay');
+            const btn = document.getElementById('btnToggleSubs');
+            subtitlesActive = !subtitlesActive;
+
+            if (subtitlesActive) {
+                overlay.classList.remove('hidden');
+                btn.innerHTML = `<i class="fa-solid fa-closed-captioning"></i> <span>Sah-shirshak band kara</span>`;
+                btn.className = "px-3.5 py-2 rounded bg-[#d4af37] text-black text-xs font-semibold border border-[#d4af37] transition flex items-center gap-1.5";
+                
+                showToast("Sinhala subtitles successfully activated on live player!");
+
+                // Run subtitle ticker
+                let subIdx = 0;
+                document.getElementById('subtitlesText').innerText = simulatedSubtitles[subIdx];
+
+                clearInterval(subtitleInterval);
+                subtitleInterval = setInterval(() => {
+                    subIdx = (subIdx + 1) % simulatedSubtitles.length;
+                    document.getElementById('subtitlesText').innerText = simulatedSubtitles[subIdx];
+                }, 4000);
+            } else {
+                overlay.classList.add('hidden');
+                btn.innerHTML = `<i class="fa-solid fa-closed-captioning"></i> <span>Sah-shirshak (Subtitles) chalu kara</span>`;
+                btn.className = "px-3.5 py-2 rounded bg-zinc-900 hover:bg-[#d4af37] hover:text-black text-xs font-semibold text-zinc-300 border border-zinc-800 transition flex items-center gap-1.5";
+                clearInterval(subtitleInterval);
+            }
+        }
+
+        // Download subtitles simulated srt file
+        function downloadSubtitles() {
+            if (!activeMovie) return;
+            showToast("Sinhala SRT file compiled... Download starting!");
+
+            const srtContent = "1\n00:00:01,000 --> 00:00:05,000\n[Moviesubslk] Official Subtitle Pack.\n\n2\n00:00:06,000 --> 00:00:10,000\nEnjoy the movie and support our portal!";
+            const blob = new Blob([srtContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${activeMovie.title.replace(/\s+/g, '_')}_Sinhala_Subs.srt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        // Favorites Action
+        function addToFavorites() {
+            if (!loggedInUser) {
+                showToast("Avadte chitrapat save krnya sathi krupaya login kara!");
+                navigate('auth');
+                return;
+            }
+
+            const isFav = favorites.some(fav => fav.id === activeMovie.id);
+            if (isFav) {
+                favorites = favorites.filter(fav => fav.id !== activeMovie.id);
+                showToast("Favoirte suchi madhun kadhle गेले!");
+            } else {
+                favorites.push(activeMovie);
+                showToast("Favorite suchi madhe save jhale!");
+            }
+            localStorage.setItem("moviesubslk_favs", JSON.stringify(favorites));
+        }
+
+        function toggleFavoriteInline(e, movieId) {
+            e.stopPropagation();
+            if (!loggedInUser) {
+                showToast("Avadte chitrapat save krnya sathi krupaya login kara!");
+                navigate('auth');
+                return;
+            }
+
+            const all = JSON.parse(localStorage.getItem("moviesubslk_movies") || "[]");
+            const movie = all.find(m => m.id === movieId);
+            if (!movie) return;
+
+            const isFav = favorites.some(fav => fav.id === movieId);
+            if (isFav) {
+                favorites = favorites.filter(fav => fav.id !== movieId);
+                showToast("Favoirte suchi madhun kadhle गेले!");
+            } else {
+                favorites.push(movie);
+                showToast("Favorite suchi madhe save jhale!");
+            }
+            localStorage.setItem("moviesubslk_favs", JSON.stringify(favorites));
+            renderMovies();
+        }
+
+        // Share Movie Trigger
+        function shareMovie() {
+            if (!activeMovie) return;
+            const simulatedUrl = window.location.href.split('?')[0] + `?movie=${activeMovie.id}`;
+            
+            // Clipboard fallback implementation
+            const tempInput = document.createElement("input");
+            tempInput.value = simulatedUrl;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+
+            showToast("Movie link copied to clipboard!");
+        }
+
+        // Handle Movie Upload (form submittal)
+        function handleMovieUpload(e) {
+            e.preventDefault();
+
+            const title = document.getElementById('upTitle').value;
+            const desc = document.getElementById('upDescription').value;
+            const videoUrl = document.getElementById('upVideoUrl').value;
+            const category = document.getElementById('upCategory').value;
+            const thumbnail = document.getElementById('upThumbnail').value;
+            const hashtags = document.getElementById('upHashtags').value || "#lankan";
+            const tags = document.getElementById('upTags').value || "movie";
+
+            // Extract Youtube Video ID if applicable
+            let videoId = "";
+            let type = "facebook";
+            if (videoUrl.includes('youtu.be/')) {
+                videoId = videoUrl.split('youtu.be/')[1]?.split('?')[0];
+                type = "youtube";
+            } else if (videoUrl.includes('youtube.com/watch')) {
+                const urlParams = new URLSearchParams(new URL(videoUrl).search);
+                videoId = urlParams.get('v');
+                type = "youtube";
+            }
+
+            const newMovie = {
+                id: "custom_" + Date.now(),
+                title: title,
+                desc: desc,
+                url: videoUrl,
+                category: category,
+                thumbnail: thumbnail,
+                tags: hashtags,
+                type: type,
+                videoId: videoId,
+                rating: 4.8
+            };
+
+            const all = JSON.parse(localStorage.getItem("moviesubslk_movies") || "[]");
+            all.unshift(newMovie);
+            localStorage.setItem("moviesubslk_movies", JSON.stringify(all));
+
+            currentMovies = all;
+            renderMovies();
+
+            showToast("Chitrapat yashasviriya upload kela gela!");
+            document.getElementById('uploadForm').reset();
+            navigate('home');
+        }
+
+        // Authentication State managers
+        function setAuthTab(tab) {
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            const tabLogin = document.getElementById('auth-tab-login');
+            const tabSignup = document.getElementById('auth-tab-signup');
+
+            if (tab === 'login') {
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+                tabLogin.className = "flex-1 text-center pb-3 text-sm font-bold border-b-2 border-[#d4af37] text-[#d4af37] transition";
+                tabSignup.className = "flex-1 text-center pb-3 text-sm font-bold border-b-2 border-transparent text-zinc-400 hover:text-white transition";
+            } else {
+                loginForm.classList.add('hidden');
+                signupForm.classList.remove('hidden');
+                tabLogin.className = "flex-1 text-center pb-3 text-sm font-bold border-b-2 border-transparent text-zinc-400 hover:text-white transition";
+                tabSignup.className = "flex-1 text-center pb-3 text-sm font-bold border-b-2 border-[#d4af37] text-[#d4af37] transition";
+            }
+        }
+
+        function handleLoginSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            
+            // Simulating Login state
+            const fakeUser = {
+                name: email.split('@')[0].toUpperCase(),
+                email: email,
+                avatarLetter: email.charAt(0).toUpperCase()
+            };
+
+            loggedInUser = fakeUser;
+            localStorage.setItem("moviesubslk_session", JSON.stringify(fakeUser));
+            updateAuthHeader();
+            showToast(`Swaagat aahe, ${fakeUser.name}! Login yashasvi.`);
+            navigate('home');
+        }
+
+        function handleSignupSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('signUpName').value;
+            const email = document.getElementById('signUpEmail').value;
+
+            const fakeUser = {
+                name: name,
+                email: email,
+                avatarLetter: name.charAt(0).toUpperCase()
+            };
+
+            loggedInUser = fakeUser;
+            localStorage.setItem("moviesubslk_session", JSON.stringify(fakeUser));
+            updateAuthHeader();
+            showToast(`Register ani Login yashasvi jhale, ${name}!`);
+            navigate('home');
+        }
+
+        function logoutUser() {
+            loggedInUser = null;
+            localStorage.removeItem("moviesubslk_session");
+            updateAuthHeader();
+            showToast("Yashasvi logout jhale!");
+            navigate('home');
+        }
+
+        // Header Auth Area update
+        function updateAuthHeader() {
+            const authArea = document.getElementById('auth-header-area');
+            if (loggedInUser) {
+                authArea.innerHTML = `
+                    <div class="flex items-center space-x-3 bg-zinc-900 border border-zinc-850 p-1.5 pr-4 rounded-full cursor-pointer" onclick="navigate('profile')">
+                        <div class="w-8 h-8 rounded-full bg-[#d4af37] text-black font-bold flex items-center justify-center text-xs">
+                            ${loggedInUser.avatarLetter}
+                        </div>
+                        <span class="text-xs font-semibold text-white hidden md:inline-block">${loggedInUser.name}</span>
+                    </div>
+                `;
+            } else {
+                authArea.innerHTML = `
+                    <button onclick="navigate('auth')" class="bg-[#d4af37] hover:bg-[#b38f2e] text-black font-semibold text-xs px-5 py-2.5 rounded-full transition shadow-lg">
+                        <i class="fa-solid fa-arrow-right-to-bracket mr-1"></i> Pravesh Kara (Login)
+                    </button>
+                `;
+            }
+        }
+
+        // Render profile statistics
+        function renderProfilePage() {
+            if (!loggedInUser) return;
+            document.getElementById('profileName').innerText = loggedInUser.name;
+            document.getElementById('profileEmail').innerText = loggedInUser.email;
+            document.getElementById('profileLetter').innerText = loggedInUser.avatarLetter;
+
+            // Render Favorite movies cards
+            const grid = document.getElementById('favoritesGrid');
+            grid.innerHTML = '';
+
+            if (favorites.length === 0) {
+                grid.innerHTML = `
+                    <p class="col-span-full text-center text-xs text-zinc-500 py-6">Tumhi adyap ekhi chitrapat save kela nahi.</p>
+                `;
+                return;
+            }
+
+            favorites.forEach(movie => {
+                const card = document.createElement('div');
+                card.className = "bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden cursor-pointer hover:border-[#d4af37] transition flex flex-col justify-between";
+                card.onclick = function() { openMovie(movie.id); };
+                card.innerHTML = `
+                    <div class="relative aspect-[16/10] overflow-hidden">
+                        <img src="${movie.thumbnail}" class="w-full h-full object-cover opacity-80" alt="${movie.title}">
+                        <span class="absolute bottom-2 left-2 bg-[#d4af37] text-black text-[9px] font-bold px-1.5 rounded uppercase">${movie.category}</span>
+                    </div>
+                    <div class="p-3">
+                        <h4 class="text-xs font-bold text-white line-clamp-1">${movie.title}</h4>
+                        <p class="text-[10px] text-zinc-400 mt-1">Chitrapat pahnysathi click kara</p>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Custom simulated Mobile Drawer
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Custom notification system (Never use browser alert)
+        function showToast(message) {
+            const toast = document.getElementById('toastMessage');
+            const toastText = document.getElementById('toastText');
+            toastText.innerText = message;
+            toast.classList.remove('hidden');
+
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
